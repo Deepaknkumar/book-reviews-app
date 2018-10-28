@@ -1,0 +1,23 @@
+{% extends 'reviews/base.html' %}
+
+{% block title %}
+Sign up
+{% endblock %}
+
+{% block body%}
+  <h1> Create Account</h1>
+    <form action="{% url 'signup_user' %}" method="post">
+      {% csrf_token %}
+      First Name:<input name="firstname" type="text" required \>
+      <br>
+      Last Name: <input name="lastname" type="text"\>
+      <br>
+      Email: <input name="email" type="email" required \>
+      <br>
+      Username: <input name="username" type="text" required \>
+      <br>
+      Password: <input name="password" type="password" required \>
+      <br>
+      <input type="submit" \>
+    </form>
+{% endblock%}

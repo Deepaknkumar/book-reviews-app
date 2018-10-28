@@ -1,0 +1,27 @@
+{% extends "reviews/base.html" %}
+
+{% block title %}
+    book reviews
+{% endblock %}
+
+{% block body %}
+     <div style="text-align: right"><a style="text-align: right" href="{% url 'logout_user' %}">Logout</a></div>
+    <h1>Welcome, {{ user.first_name }}</h1>
+    <hr>
+    <h3>
+    <form action="{% url 'search_book' %}" method="get">
+    Book Search <input type="text" name="search_keyword" placeholder="search book">
+        <input type="submit" value="Search">
+    </form>
+    </h3>
+    <hr>
+    <h2>Your reviews</h2>
+    {% for review in reviews %}
+    <div style="border-top: 0.5px solid lightgray; margin: 5px">
+            <b>Book: <a href="{% url 'book_info' review.book.id %}"> {{ review.book.title }}</a></b> <br>
+            Rating: {{ review.rating }} <br>
+            Full review: {{ review.review }}
+            <br>
+            </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "reviews/base.html" %}
+
+{% block title %}
+    Search results
+{%  endblock %}
+
+{% block body %}
+<div style="text-align: right">Hi {{ user.first_name }}! <a style="text-align: right" href="{% url 'logout_user' %}">Logout</a></div>
+    <h3>
+    <form action="{% url 'search_book' %}" method="get">
+    Book Search <input type="text" name="search_keyword" placeholder="search book">
+        <input type="submit" value="Search">
+    </form>
+    </h3>
+
+    <h4> {{ results_count }} search results for <b>"{{ keyword }}"</b></h4>
+    <table border="" >
+    <thead align="center" style="margin: 10em"><th>ID</th><th>ISBN</th> <th>Title</th><th>Author</th><th>Year</th></thead>
+    {% for book in books1 %}
+        <tr align="center" style="margin: 10em"><td>{{book.id}}</td><td><b>{{ book.isbn }}</b></td><td><a href="{% url 'book_info' book.id %}">{{ book.title }}</a></td><td>{{ book.author }}</td><td>{{ book.year }}</td> </tr>
+    {% endfor %}
+    {% for book in books2 %}
+        <tr align="center" style="margin: 10em"><td>{{book.id}}</td><td>{{ book.isbn }}</td><td><a href="{% url 'book_info' book.id %}"><b>{{ book.title }}</b></a></td><td>{{ book.author }}</td><td>{{ book.year }}</td> </tr>
+    {% endfor %}
+    {% for book in books3 %}
+        <tr align="center" style="margin: 10em"><td>{{book.id}}</td><td>{{ book.isbn }}</td><td><a href="{% url 'book_info' book.id %}">{{ book.title }}</a></td><td><b>{{ book.author }}</b></td><td>{{ book.year }}</td> </tr>
+    {% endfor %}
+    </table>
+{% endblock %}

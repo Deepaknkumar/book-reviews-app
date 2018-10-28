@@ -1,0 +1,74 @@
+{% extends 'reviews/base.html' %}
+
+{% block title %}
+  {{book.title}}
+{% endblock %}
+
+{% block body%}
+  
+    <h1>{{book.title}} </h1>
+    <hr>
+    <p> ISBN: {{book.isbn}} </p>
+    <p> Author : {{ book.author}} </p>
+    {% if book.year == 0 %}
+    <p> Year : Not Available.</p>
+    {% else %}
+      <p> Year : {{book.year}} </p>
+    {% endif %}
+
+    <hr>
+    <h3>Goodreads Info</h3>
+      {% for key, value in gdinfo.items %}
+        {% if key == "id" %}
+        <p> Goodreads ID: {{value}}
+        {% elif key == "average_rating" %}
+            <p><b>Average Rating: {{ value }}</b></p>
+        {% else %}
+        <p>{{key}}: {{ value}} </p>
+        {% endif %}
+      {% endfor %}
+    <hr>
+    {% if loggedin %}
+        {% if userreview is not None %}
+        <h3>Your Review</h3>
+            <div style="border-top: 0.5px solid lightgray; margin: 5px">
+            <b>User: {{ userreview.user.get_full_name }}</b> <br>
+            Rating: {{ userreview.rating }} <br>
+            Full review: {{ userreview.review }}
+            <br>
+            </div>
+        {% else %}
+        <h3> Write a review</h3>
+        <form action="{% url "create_review" book.id %}" method="post" id="review-form">
+        {% csrf_token %}
+            <b>Name : {{ user.get_full_name }}</b>
+            <br>
+            <b>Rating</b>(out of 5): <input type="text" name="rating" required>
+            <br>
+        <b>Review</b>:<br>
+            <textarea rows="5" cols="100" name="review" >Write a review...</textarea>
+        <br>
+        <input type="submit" value="Submit review">
+        </form>
+        {% endif %}
+        <hr>
+    {% endif %}
+
+    <h3>User Reviews</h3>
+{#    {% if userreviews is not None %}#}
+    {% for review in userreviews %}
+        <div style="border-top: 0.5px solid lightgray; margin: 5px">
+        <b>User: {{ review.user.get_full_name }}</b> <br>
+        Rating: {{ review.rating }} <br>
+        Full review: {{ review.review }}
+        <br>
+        </div>
+    {% endfor %}
+{#    {% else %}#}
+{#        Be the first to write a review.#}
+{#    {% endif %}#}
+    <hr>
+
+{#    <h3>Goodreads Reviews</h3>#}
+{#    <p>{{reviewsdata}}</p>#}
+{% endblock %}
